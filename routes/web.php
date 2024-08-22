@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\akController;
+use App\Http\Controllers\homepage;
+use App\Http\Middleware\check;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -18,7 +21,20 @@ Route::get('/post/{postId}/category/{catId?}', function (string $postId, ?string
 Route::get('/user/profile', function () {
     return "Gotten";
 })->name('profile');
+Route::view('/home', 'home');
+Route::post('/home', function () {
+    return "<h1>Good</h1>";
+})->middleware(check::class)->name('home');
 
+Route::resource('test', akController::class)
+->missing(function () {
+    redirect('/');
+})->names([
+    'create' => 'test.add'
+]);
+Route::view('/home2', 'home2');
+Route::get('/homepage', [homepage::class, 'about']);
+Route::post('/homepage', [homepage::class, 'handler']);
 Route::fallback(function () {
-   return 'Route not found!php';
+   return '<h1>Route not found!</h1>';
 });
