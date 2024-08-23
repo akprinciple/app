@@ -24,6 +24,37 @@ class homepage extends Controller
         // if ($request->input('token') !== '12345678') {
         //     return $request;
         // }
-        return $request->url();
+        // $request->flash();
+        // return redirect('/home2');
+        // Oe we use
+        // return redirect('/home2')->withInput($request->except('password'));
+        // return $request->cookie();
+        // return back()->withInput(); //redirecting back 
+        return back()->withInput()->with('status', 'Error');
+        return redirect()->route('test.add'); //redirecting to a named route
+        if($request->hasFile('photo')){
+        if ($path = $request->photo->store('./public')){
+            // return $request->file('photo');
+            $path;
+            return "<img src=".$path.">";
+        }
+            
+        }else {
+            return "Not found";
+        }
+        if (!$request->filled('password')) {
+            return "Password cannot be empty!";
+        }
+        elseif($request->has(['email', 'password'])) {
+            $request->merge(['name'=> 'Leo']);
+            return $request;
+            // return 'Email is '.$request->input('email').' Password is '.$request->input('password');
+        }elseif ($request->has('email')) {
+            return $request->input('email');
+        }
+        else{
+            return "Email and Password keys are required";
+        }
+        
     }
 }
