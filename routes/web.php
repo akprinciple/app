@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\akController;
 use App\Http\Controllers\homepage;
+use App\Http\Controllers\User;
 use App\Http\Middleware\check;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::view('/home', 'home');
 Route::post('/home', function () {
     return "<h1>Good</h1>";
 })->middleware(check::class)->name('home');
+Route::resource('users', User::class);
 
 Route::resource('test', akController::class)
 ->missing(function () {
@@ -35,6 +37,7 @@ Route::resource('test', akController::class)
 Route::view('/home2', 'home2');
 Route::get('/homepage', [homepage::class, 'about']);
 Route::post('/homepage', [homepage::class, 'handler']);
+Route::view('/greeting', 'greeting');
 Route::fallback(function () {
    return '<h1>Route not found!</h1>';
 });

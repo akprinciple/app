@@ -30,7 +30,13 @@ class homepage extends Controller
         // return redirect('/home2')->withInput($request->except('password'));
         // return $request->cookie();
         // return back()->withInput(); //redirecting back 
-        return back()->withInput()->with('status', 'Error');
+        // return back()->withInput()->with('status', 'Error');
+
+        $pathToFile = public_path('images/cyberadnation2.png');
+        return response()->file($pathToFile); //For displaying a file directly
+        return response()->download($pathToFile); //For downloading
+        $info = $request;
+        return response()->view('page', ['info'=>$info]); //For returning view and Data
         return redirect()->route('test.add'); //redirecting to a named route
         if($request->hasFile('photo')){
         if ($path = $request->photo->store('./public')){
